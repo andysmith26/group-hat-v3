@@ -1,13 +1,7 @@
 import { google } from 'googleapis';
-import { readFileSync } from 'fs';
 import { SHEET_ID } from '$env/static/private';
 
-// Load credentials & initialize auth
-const creds = JSON.parse(
-  readFileSync(process.env.GOOGLE_SERVICE_ACCOUNT_KEYFILE!, 'utf-8')
-);
 const auth = new google.auth.GoogleAuth({
-  credentials: creds,
   scopes: ['https://www.googleapis.com/auth/spreadsheets']
 });
 const sheets = google.sheets({ version: 'v4', auth });
