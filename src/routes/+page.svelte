@@ -1,1 +1,1 @@
-<h1>Hello Group Hat v3!@</h1>
+<h1>Hello Group Hat v3!</h1>
