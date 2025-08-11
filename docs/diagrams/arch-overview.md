@@ -61,3 +61,68 @@ flowchart LR
 - Separate Sheets: Isolation for students, groups, preferences.
 - Clipboard Fallback: Manual, no server round trip.
 - Generate link: Convenience to open a sheet directly.
+
+---
+
+## Sequence Diagram: Authentication & Initial Data Load
+
+```mermaid
+sequenceDiagram
+    participant T as Teacher
+    participant B as Browser UI
+    participant Auth as Google OAuth
+    participant API as SvelteKit API
+    participant SA as Service Account
+    participant Sheets as Google Sheets
+
+    rect rgb(248,250,252)
+    T->>B: Click "Sign in"
+    B->>Auth: OAuth authorization request (scopes)
+    Auth-->>B: Authorization code
+    B->>API: POST /api/auth/callback (code)
+    API->>Auth: Exchange code for tokens
+    Auth-->>API: ID & Access token
+    API->>API: Verify ID token (signature, audience, expiry)
+    API-->>B: Set session cookie / response
+    end
+
+    B->>API: GET /api/data (session cookie)
+    API->>SA: Use service account credentials
+    SA->>Sheets: Read Students / Groups / Prefs
+    Sheets-->>SA: Sheet data
+    SA-->>API: Aggregated data
+    API-->>B: JSON payload (students, groups, prefs)
+    B-->>T: Render groups list / UI state
+
+    note over B,API: Session cookie may store opaque session id linked to server state
+```
+
+## Sequence Diagram: Create / Save Assignments
+
+```mermaid
+sequenceDiagram
+    participant T as Teacher
+    participant B as Browser UI
+    participant API as SvelteKit API
+    participant SA as Service Account
+    participant Sheets as Google Sheets
+
+    T->>B: Click "Save Assignments"
+    B->>API: POST /api/assignments (assignments JSON, cookie)
+    API->>API: Validate session & payload
+    API->>SA: Use service account credentials
+    SA->>Sheets: Write new group assignments
+    Sheets-->>SA: Write acknowledgement
+    SA-->>API: Success / updated revision id
+    API-->>B: 201 Created (metadata)
+    B-->>T: Show confirmation / link to sheet
+
+    note over API,Sheets: Least-privilege scopes limit access to required Sheets only
+```
+
+### Additional Notes
+- Tokens: Only the server (API) exchanges the auth code; browser never gets service account keys.
+- Session: Prefer HTTP-only, Secure, SameSite=Lax (or Strict) cookie containing an opaque session id mapped to server-side token data.
+- Caching: Consider short-lived in-memory or KV cache for sheet reads to reduce latency; bust cache on writes.
+- Error Handling: Distinguish auth (401/403), validation (422), and sheet I/O (5xx with retry guidance).
+- Observability: Log correlation id across Browser -> API -> Sheets operations for traceability.
