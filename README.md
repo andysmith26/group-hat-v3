@@ -1,38 +1,38 @@
-# sv
+# Group Hat (v3)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A lightweight, teacher-centered tool to create balanced student groups quickly.
 
-## Creating a project
+## Quickstart
+1. **Clone & install**
+   ```bash
+   pnpm i
+   pnpm dev
+   ```
+2. **Set environment variables** (Vercel or `.env`):
+   - `GOOGLE_SA_EMAIL` — Google service account email
+   - `GOOGLE_SA_KEY` — JSON private key for the service account (escaped newlines)
+   - `SHEET_ID` — Google Sheet ID holding Students / Groups / Preferences
+   - `AUTH_SHARED_SECRET` — random secret for API requests
+   - `ALLOWED_ORIGINS` — comma-separated origins allowed by CORS (e.g. `http://localhost:5173,https://*.vercel.app`)
 
-If you're seeing this, you've probably already done this step. Congrats!
+3. **Run tests**
+   ```bash
+   pnpm test
+   ```
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Environments
+- **Local**: http://localhost:5173
+- **Preview (Vercel)**: created per PR
+- **Production**: `https://<your-app>.vercel.app`
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Where to find things
+- Architecture overview: `docs/architecture.md`
+- Data contracts (Sheet schema): `docs/data-contracts.md`
+- API reference: `docs/api.md`
+- Operations & deployment: `docs/operations.md`
+- Testing strategy: `docs/testing.md`
+- Roadmap: `docs/roadmap.md`
+- Decisions (ADRs): `docs/adrs/`
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+---
+_Status: Accepted • Owner: Andy Smith • Last verified: 2025-08-11_
