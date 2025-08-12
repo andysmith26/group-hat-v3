@@ -1,5 +1,3 @@
-Status: Accepted • Owner: Andy Smith • Last verified: 2025-08-11
-
 # Operations (Runbook)
 
 ## Environments
