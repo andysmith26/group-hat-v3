@@ -1,5 +1,5 @@
 
-# Roadmap (Phased Plan)
+# Roadmap
 
 * [ ] **Phase 1: Foundation & Infrastructure**
 
