@@ -1,51 +1,74 @@
-Status: Accepted • Owner: Andy Smith • Last verified: 2025-08-11
 
 # Roadmap (Phased Plan)
 
-- [ ] **Phase 1: Foundation & Infrastructure (2 hrs)**
-  - Initialize SvelteKit + TypeScript
-  - Git + CI/CD + Vercel environment variables
-  - Minimal Hello World deploy
+* [ ] **Phase 1: Foundation & Infrastructure**
 
-- [ ] **Phase 2: Data Integration Layer (5 hrs)**
-  - Google Sheets API via service account
-  - Scopes: `spreadsheets.readonly` (fetch), `spreadsheets` (write)
-  - Secrets in Vercel env vars
-  - Shared secret auth header + CORS allow-list
-  - `/api/data` returns students, groups, preferences
-  - Document sheet schema & dev auth config
+  * Initialize SvelteKit + TypeScript project
+  * Set up Git repo, CI/CD, and Vercel deployment
+  * Configure environment variables (Google API credentials, etc.)
+  * Deploy a “Hello World” to verify setup
 
-- [ ] **Phase 3: Basic Data Display (4 hrs)**
-  - UI fetch & render students/groups
-  - Empty-state & error messaging for `/api/data`
+* [ ] **Phase 2: Data Integration Layer**
 
-- [ ] **Phase 4: Manual Grouping UI (6 hrs)**
-  - Drag-and-drop (svelte-dnd-action) desktop + mobile
-  - Tests: cross-group DnD, capacity enforcement
-  - State update flow for moves
+  * Google Sheets API integration via service account
+  * Set up Sheets API scopes (`spreadsheets.readonly` for fetch, `spreadsheets` for write)
+  * Store service account credentials and Sheet ID in env vars
+  * Implement `/api/data` endpoint to return students, groups, preferences from sheet
+  * Implement basic auth for API (shared secret header) and CORS allow-list of app domain
+  * Document the Google Sheet schema and any dev setup needed for the service account
 
-- [ ] **Phase 5: Auto-Assignment Algorithms (6 hrs)**
-  - Implement `balancedAssign` and `randomAssign`
-  - Tests: correctness + missing/unfulfillable preferences
+* [ ] **Phase 3: Basic Data Display**
 
-- [ ] **Phase 6: Undo/Redo System (4 hrs)**
-  - Snapshot-based history stack (depth limit)
-  - Tests: manual moves + post-auto-assign
+  * Front-end fetches from `/api/data` and renders a simple list of students & groups
+  * Define TypeScript interfaces for Student, Group, etc.
+  * Handle empty or error states for data loading (e.g., show a message if no data)
 
-- [ ] **Phase 7: UI Polish & Responsiveness (4 hrs)**
-  - Layout refinement, fill indicators
-  - A11y basics: keyboard navigation, focus states
+* [ ] **Phase 4: Manual Grouping UI**
 
-- [ ] **Phase 8: Save & Errors (4 hrs)**
-  - `/api/save` writes to new tab; clipboard fallback
-  - Error messaging: outage, permission
+  * Implement drag-and-drop of students between groups using `svelte-dnd-action`
+  * Enforce group capacity limits in UI (no adding beyond capacity, or flag it)
+  * Update application state on student move and reflect changes immediately
+  * Write tests for drag/drop logic and capacity enforcement edge cases
 
-- [ ] **Phase 9: Comprehensive Testing & Refinement (4 hrs)**
-  - Broad testing with realistic datasets
-  - Fixes + UX refinement
+* [ ] **Phase 5: Auto-Assignment Algorithms**
 
-- [ ] **Phase 10: Documentation & Wrap-up (3 hrs)**
-  - Finalize README and docs
-  - 1-hr buffer
+  * Implement `randomAssign` and `balancedAssign` algorithm functions
+  * Add UI controls to select algorithm and trigger auto-assignment
+  * After auto-assign, display which students got their preferred choices (e.g., highlight)
+  * Write unit tests for algorithms (correctness, handling of edge cases like unsatisfiable prefs)
 
-**Total**: ~38 hrs (+ ~2 hrs buffer)
+* [ ] **Phase 6: Undo/Redo System**
+
+  * Implement a history stack for group assignment states (with a reasonable depth limit)
+  * Add “Undo” and “Redo” buttons and wire up keyboard shortcuts (Ctrl+Z / Ctrl+Y)
+  * Test that undo and redo correctly revert and reapply changes for both manual and auto actions
+
+* [ ] **Phase 7: UI Polish & Responsiveness**
+
+  * Refine layout and styling (ensure clean look on laptops, use CSS Grid/Flexbox for group layout)
+  * Add instructional text or tooltips for usability
+  * Ensure accessibility basics (tab navigation, ARIA labels where needed)
+  * Verify UI on tablet (touch interactions, responsive layout)
+
+* [ ] **Phase 8: Save & Error Handling**
+
+  * Implement `/api/save` to write group results to a new sheet tab; ensure no original data overwritten
+  * Add a “Save” button in UI; on click, call API and confirm success or show error
+  * Implement fallback (copy to clipboard or download file) if direct save fails
+  * Provide user feedback on save (e.g., toast notification “Saved!” or error message)
+
+* [ ] **Phase 9: Comprehensive Testing & Refinement**
+
+  * Test entire app with real-world-sized data; fix any functional bugs
+  * Verify all user stories from each phase are met in integration
+  * Add/improve unit tests for critical logic
+  * Address any major UX issues discovered during testing
+
+* [ ] **Phase 10: Documentation & Wrap-up**
+
+  * Update README with usage and setup instructions
+  * Finalize architecture docs and ADRs for key decisions
+  * Add code comments in complex sections
+  * Small fixes for any minor issues found late
+  * Use remaining buffer time for any unfinished tasks or polish
+
