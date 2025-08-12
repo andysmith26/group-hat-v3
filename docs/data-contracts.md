@@ -1,5 +1,3 @@
-Status: Accepted • Owner: Andy Smith • Last verified: 2025-08-11
-
 # Data Contracts (Google Sheets)
 
 The spreadsheet identified by `SHEET_ID` must include three tabs with exact names and headers.
